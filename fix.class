@@ -1,0 +1,44 @@
+package fix;
+
+import java.util.logging.Logger;
+import org.bukkit.Server;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class fixszgfbug
+  extends JavaPlugin
+  implements Listener
+{
+  public void onEnable()
+  {
+    getLogger().info("[修复时装工坊插件已启动]");
+    getLogger().info("By luocode MCKU.org inc.");
+    getServer().getPluginManager().registerEvents(this, this);
+  }
+  
+  @EventHandler
+  public void PlayerInteractEvent(PlayerInteractEvent e)
+  {
+    Block b = e.getClickedBlock();
+    
+    e.getPlayer().sendMessage("ID:" + Integer.toString(b.getTypeId()));
+    if (!e.getPlayer().hasPermission("fix.fixszgf")) {
+      if (b.getTypeId() == 181) {
+        try
+        {
+          e.setCancelled(true);
+          e.getPlayer().sendMessage("抱歉，你不能够打开这个物品!");
+        }
+        catch (Exception e2)
+        {
+          e2.printStackTrace();
+        }
+      }
+    }
+  }
+}
